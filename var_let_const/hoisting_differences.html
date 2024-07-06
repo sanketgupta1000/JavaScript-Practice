@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // var has hoisting, ie, var declarations are hoisted to the top of the function or global scope.
+        // only the declaration is hoisted, not the initialization.
+        // so it's like a is in memory, but it is undefined right here
+        // when var a=10 is executed, a is assigned 10
+
+        console.log(a); // undefined
+        var a = 10;
+        console.log(a); // 10
+
+        // let and const do not have hoisting
+        // console.log(b); // gives error
+        let b = 20;
+        console.log(b);
+
+    </script>
+
+</body>
+</html>

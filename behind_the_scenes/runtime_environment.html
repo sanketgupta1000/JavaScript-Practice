@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        console.log("start")
+        setTimeout(()=>
+        {
+            console.log("after 3s")
+        }, 3000)
+        console.log("end")
+
+        // runtime environment contains the followint 5 things mainly:
+        // 1. JS Engine
+        // It provides the heap and call stack data structure to store the data and execution contexts respectively.
+
+        // 2. Web APIs
+        // Browser provides some APIs like setTimeout, setInterval, fetch, etc. These are not part of JS, but are provided by the browser.
+
+        // 3. Callback Queue
+        // when a callback is done waiting, or it's time to execute it due to occurence of some event, it is put in the callback queue.
+        // So the callback queue contains the callbacks that are ready to be executed.
+
+        // 4. Event Loop
+        // It continously checks the call stack and callback queue. If the call stack is empty, it takes the first callback from the callback queue and puts it in the call stack.
+        // So a callback isn't executed straightaway when it's ready, but it waits for the call stack to be empty.
+
+        // 5. Microtask Queue
+
+        // uncomment the following loop to see how the setTimeout is delayed till this loop is executed
+        // for(let i = 0; i<=10000000000; i++)
+        // {
+        //     // do nothing
+        // }
+
+    </script>
+
+</body>
+</html>

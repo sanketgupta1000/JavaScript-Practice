@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // constructor functions: function as class
+        function Student()
+        {
+            this.name = "Sanket";
+            this.id = "22CEUOG043";
+            this.introduce = function()
+            {
+                console.log("Hi! I am "+this.name);
+            }
+        }
+
+        // create object
+        let student1 = new Student();
+        student1.introduce();
+
+        // steps when we call function with new keyword
+        // 1. new object is created
+        // 2. this keyword is set to the new object
+        // 3. function is executed
+        // 4. return the object
+
+        let student2 = new Student();
+        student2.name = "John";
+        student2.id = "22CEUOG044";
+        student2.introduce();
+
+        student1.introduce();
+
+        // can also pass arguments to constructor function
+        function Student2(name, id)
+        {
+            this.name = name;
+            this.id = id;
+            this.introduce = function()
+            {
+                console.log("Hi! I am "+this.name);
+            }
+        }
+
+        let student3 = new Student2("Sanket", "22CEUOG043");
+        student3.introduce();
+
+        // read only property example
+        function Person(name)
+        {
+            let _name = name;
+            // didn't use this keyword
+            // so _name is not a property of the object that will be created
+
+            // defineProperty method of Object class
+            // can use it to define properties
+            // creating an accessor property
+            // will see waht it really means
+            Object.defineProperties(this, {
+                "Name": {
+                    get: function()
+                    {
+                        return _name;
+                    }
+                }
+            });
+        }
+
+        let person1 = new Person("Sanket");
+
+        // this will call the getter method behind the scenes
+        console.log(person1.Name);
+
+        person1.Name = "John"; // no error, but no effect
+        console.log(person1.Name);
+
+        // now we will see what a property really is
+        console.log(Object.getOwnPropertyDescriptor(person1, "Name"));
+
+        const obj = {
+            id: 1
+        }
+
+        console.log(Object.getOwnPropertyDescriptor(obj, "id"));
+
+        // a property represents some data related to an object only
+        // a property itself has many attributes
+        // also, a property can be of two types: data property and accessor property
+
+        // data property has 4 attributes: value, writable, enumerable, configurable
+        // accessor property has 4 attributes: get, set, enumerable, configurable
+
+        // if we create property without defineProperty method, it will be a data property
+        // also, it will be enumerable, writable, configurable
+        // and the value we give will be set in its value attribute
+
+        // if we create property by defineProperty(ies) method, its type will be decided by the attributes we give
+
+        // eg: data property with defineProperty method
+        function Class()
+        {
+            Object.defineProperty(this, "id", {
+                value:1,
+                writable: true,
+                enumerable: true,
+                configurable: true
+            })
+        }
+
+        let obj1 = new Class();
+
+        console.log(obj1.id);
+        obj1.id = 2;
+        console.log(obj1.id);
+        console.log(Object.getOwnPropertyDescriptor(obj1, "id"));
+
+        // The getOwnPropertyDescriptor method returns a
+        // property descriptor for a property that directly defined in
+        // the specified object but not inherited from object's
+        // prototytpe.
+        // we will see what a prototype is
+
+        // description of attributes of a property
+        // value: the value of the property, for data properties only
+        // writable: if the property can be changed, for data properties only
+        // enumerable: if the property can be iterated over using for in and Object.keys
+        // configurable if the property descriptor (nothing but an object of attributes itself, the object we pass to defineProperty method) can be changed. so, defineProperty can be called again on the property, to change its descriptor
+        // get: a function that will be called when the property is read, for accessor properties only, if undefined, we can't read the property
+        // set: a function that will be called when the property is written to, for accessor properties only, if undefined, we can't write to the property
+
+
+
+    </script>
+
+</body>
+</html>

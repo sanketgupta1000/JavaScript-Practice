@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // when a function is called at runtime, its execution context is created and pushed on top of the call stack
+        // this execution context has three components: the lexical environment, the variable environment, and the this keyword
+
+        // kexical env contains the env record, whichi is the place where the variables are stored
+        // it also contains a list of all the outer lexical environments, which is how the function can access the variables of the outer function
+
+        // so, when a function is called, we can say that a new lexical environment is created
+        // and after execution, the execution context is destroyed/popped from stack. But if there is any inner function that is still in memory, the outer function's lexical environment is still in memory, and the inner function can still access the outer function's variables
+        // this is how a 'closure' is created
+        // the inner function is called a closure, because it has access to the outer function's variables, even after the outer function has finished executing
+
+        function outer()
+        {
+            let a = 10;
+            console.log(a);
+
+            function inner()
+            {
+                a++;
+                console.log(a);
+            }
+
+            return inner;
+        }
+
+        let innerFunc = outer();
+        // now outer has finished executing, but innerFunc still has access to the outer function's variables
+        innerFunc();
+        innerFunc();
+
+        let innerFunc2 = outer();
+        // now, outer called again, so a new lexical environment is created
+        // now we have two lexical environments in memory, one for innerFunc and one for innerFunc2
+        innerFunc();
+        innerFunc2();
+
+        // expected output:
+        // 10
+        // 11
+        // 12
+        // 10
+        // 13
+        // 11
+
+        // so basically, this can be used to mimic private variables in JS
+
+        function Student()
+        {
+            let id;
+            let name;
+
+            return {
+                setId: function(newId)
+                {
+                    id = newId;
+                },
+                getId: function()
+                {
+                    return id;
+                },
+                setName: function(newName)
+                {
+                    name = newName;
+                },
+                getName: function()
+                {
+                    return name;
+                }
+            }
+        }
+
+        let student1 = Student();
+        let student2 = Student();
+        
+        student1.setId(1);
+        student1.setName("John");
+
+        student2.setId(2);
+        student2.setName("Jane");
+
+        console.log(student1.getId());
+        console.log(student1.getName());
+        console.log(student2.getId());
+        console.log(student2.getName());
+
+    </script>
+
+</body>
+</html>

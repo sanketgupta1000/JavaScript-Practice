@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // everything is good, until callbacks come into the picture
+        
+        function fun1(callback)
+        {
+            console.log("callback accessed by fun1")
+            callback()
+        }
+        // so fun1 is calling the callback regularly, so the value of this keyword inside the callback will be the global object, which is the window object in the browser
+        // here, we can use call or apply to control the value of this keyword inside the callback
+        // but what if the code of fun1 is written by someone else, and we are just using it?
+        // we can't control the value of this keyword inside the callback in this case
+        // bind to the rescue
+
+        function fun2()
+        {
+            console.log(this)
+        }
+
+        let obj = {
+            id: 1,
+            name: "Sanket"
+        }
+
+        fun1(fun2.bind(obj))
+        // bind returns a new function, where the value of this keyword is set to the object that is passed as an argument to the bind method
+        // fun2's this is not exactly set to obj, but a new function is created, where this is set to obj
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // In JS, no class is there
+        // instead, objects are standalone
+        // but we can achieve class-like functionality with functions
+        // behind the scenes, class is just a function
+        // and a function is creating a standalong object only
+
+        // ways to create objects
+
+        // way 1
+        // object literal
+        let myObj = {
+            property1: "value1",
+            property2: "value2",
+            property3: "value3",
+            method1: function()
+            {
+                console.log("I am a method of myObj");
+            }
+        };
+
+        // can access properties by . notation
+        console.log(myObj.property1);
+        // or by [] syntax
+        console.log(myObj["property2"]);
+
+        // calling method
+        myObj.method1();
+        myObj["method1"]();
+
+
+        // way 2
+        // using Object constructor
+        let student = new Object();
+        // attach propery and method
+        student.name = "Sanket";
+        student.id = "22CEUOG043";
+        student.introduce = function()
+        {
+            console.log("Hi! I am "+this.name);
+        }
+        console.log(student)
+        // then use
+        student.introduce()
+
+        // if we access a property/method which does not exist, will get undefined
+        console.log(student.rollNo)
+        // error, since undefined is not a function
+        // student.greet()
+
+        // explore: student. and see what intellisense suggests and try
+
+        // isPrototypeOf(): seems odd, since, objects are standalone. Will see later
+
+        if(student.hasOwnProperty("name"))
+        {
+            console.log(student.name)
+        }
+
+        if(student.hasOwnProperty("email"))
+        {
+            console.log(student.email)
+        }
+        else
+        {
+            console.log("email does not exist in student")
+        }
+
+        // will see enumerable properties
+        console.log(student.propertyIsEnumerable("name"))
+
+        console.log(student.valueOf())
+
+        // accessing object keys
+        for(let key in student)
+        {
+            console.log(`${key} = ${student[key]}`)
+        }
+        
+        console.log(Object.keys(student))
+
+        
+    </script>
+
+</body>
+</html>

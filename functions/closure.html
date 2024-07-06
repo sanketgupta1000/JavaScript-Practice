@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        function outer()
+        {
+            let a = 5;
+            console.log(a);
+
+            function inner()
+            {
+                a++;
+                console.log(a);
+            }
+
+            // case 1:
+            // inner();
+
+            // case 2:
+            return inner;
+        }
+
+        // case 1:
+        // outer();
+
+        // case 2:
+        let innerFunc = outer();
+        innerFunc();
+        innerFunc();
+
+        // closure of a function is all that the function can access, which, in JS, includes the outer function's variables too
+
+    </script>
+
+</body>
+</html>

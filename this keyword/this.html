@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // the lexical environment also contains the this keyword
+        // now the value of this keyword depends on how the function was called
+
+        // case 1: function called regurlarly, ie, not as a method of an object
+        // in this case, this keyword points to the global object, which is the window object in the browser
+
+        function fun1()
+        {
+            console.log(this)
+
+            function fun2()
+            {
+                console.log(this)
+            }
+
+            fun2()
+        }
+
+        fun1()
+
+        // case 2: this used inside a constructor function
+        // in this case, this keyword points to the object that is created by the constructor function
+        // also, the constructor function is called with the new keyword, and it returns the object that is created by the constructor function
+
+        function Person(name, age)
+        {
+            this.name = name
+            this.age = age
+        }
+
+        let p1 = new Person('John', 25)
+        // p1 contains the object that is created by the Person constructor function
+        console.log(p1)
+
+        // case 3: this used inside a method of an object
+        // in this case, this keyword points to the object that contains the method
+
+        let obj = {
+            name: 'John',
+            age: 25,
+            greet: function()
+            {
+                console.log(this)
+            }
+        }
+
+        obj.greet()
+
+    </script>
+
+</body>
+</html>

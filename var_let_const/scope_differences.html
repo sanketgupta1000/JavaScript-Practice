@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // var has either global scope or function scope.
+        // let and const can also have block scope.
+
+        var globalVar = "I am a global var"
+        console.log(globalVar)
+
+        function myFun()
+        {
+            var functionVar = "I am a var with a function scope"
+            console.log(functionVar)
+        }
+
+        myFun()
+
+        // gives error
+        // console.log(functionVar)
+
+        if(true)
+        {
+            var globalVar2 = "Even tho I am in a block, I am of global scope"
+            console.log(globalVar2)
+        }
+
+        console.log(globalVar2)
+
+        {
+            let blockVar = "I have a block scope"
+            console.log(blockVar)
+        }
+
+        // gives error
+        // console.log(blockVar)
+
+    
+
+    </script>
+
+</body>
+</html>

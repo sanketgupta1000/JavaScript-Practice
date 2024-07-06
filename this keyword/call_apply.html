@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // so we have seen that the value of this keyword depends on how the function was called
+        // but what if we want to control the value of this keyword
+
+        // we can do this using the call and apply methods
+
+        // call and apply are methods of the function object
+
+        // call
+        function fun1(greetingMsg, time)
+        {
+            console.log(greetingMsg)
+            console.log(time)
+            console.log(this)
+        }
+
+        let obj = {
+            id: 1,
+            name: "Sanket"
+        }
+
+        fun1.call(obj, "Hello", "Morning")
+
+        // apply is similar to call, but the only difference is that the arguments are passed as an array
+        fun1.apply(obj, ["Hello", "Morning"])
+
+    </script>
+
+</body>
+</html>

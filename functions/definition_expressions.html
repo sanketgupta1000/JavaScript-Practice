@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // function may be written in one of the two ways
+
+        // 1. function declaration, or definition
+        function myFunc()
+        {
+            console.log("I am a function declaration")
+        }
+
+        // 2. function expression
+        const myFunc2 = function()
+        {
+            console.log("I am a function expression")
+        }
+
+        myFunc()
+        myFunc2()
+
+        // function declaration can be hoisted
+        // but function expression cannot be hoisted
+
+        myFunc3()
+        function myFunc3()
+        {
+            console.log("I am a function declaration")
+        }
+
+        // gives error
+        // myFunc4()
+        const myFunc4 = function()
+        {
+            console.log("I am a function expression")
+        }
+
+    </script>
+
+</body>
+</html>
