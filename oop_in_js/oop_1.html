@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // we have seen behind the scenes of function call and execution
+        // now is then time to see behind the scenes of object creation
+        // we have come across the term prototype property many times
+        // let's see what it is
+
+        // we will first see a problem, and see how the way JS implements OOP solves it
+
+        // constructor function
+        function Person(name, birthYear)
+        {
+            this.name = name;
+            this.birthYear = birthYear;
+
+            this.calculateAge = function()
+            {
+                return new Date().getFullYear() - this.birthYear;
+            }
+
+        }
+
+        let p1 = new Person("Sanket", 2003);
+        console.log(p1);
+
+        let p2 = new Person("John", 2000);
+        console.log(p2);
+
+        // we can compare two functions to see if they refer to the same function
+
+        console.log(p1.calculateAge===p1.calculateAge);
+        
+        console.log(p1.calculateAge===p2.calculateAge);
+        // this gives false
+        // this is because each object has its own copy of the function
+        // so function is duplicated for each object
+        // not desirable
+
+        // solution: concept of prototypes in JS
+
+        // we know that when we create an object using new keyword, the __proto__ property of the object is set to the prototype property of the constructor function
+        // and the prototype property of the constructor function is nothing but an object
+        // and this is JS's way of implementing classes and inheritance
+        // in C++, Java, we have methods and other common things between objects inside space for class
+        // JS basically stores all the common code inside a prototype object
+
+        // let's take an example
+
+        function Person2(name, birthYear)
+        {
+            this.name = name;
+            this.birthYear = birthYear;
+
+        }
+        
+        // add the function to the prototype property of the constructor function
+        Person2.prototype.calculateAge = function()
+        {
+            return new Date().getFullYear() - this.birthYear;
+        }
+
+        console.log(Person2.prototype)
+
+        let p3 = new Person2("Sanket", 2003);
+        console.log(p3);
+
+        let p4 = new Person2("John", 2000);
+        console.log(p4);
+
+        console.log(p3.calculateAge===p4.calculateAge);
+        // this gives true
+        // so no duplication of function
+        // so basically, when JS does not find the function in the object, it looks for it in the __proto__ property of the object
+        
+        // also from the prototype of constructor function there is link back to the constructor function
+        console.log(Person2.prototype.constructor)
+
+        // the big picture:
+        // since prototype of Person2 is itself an object, which was created internally by JS
+        // so, it must itself have a prototype too.
+        console.log(Person2.prototype)
+        // we can see that the prototype of the prototype of Person2 is Object.prototype
+
+        // so this basically forms a chain, called prototype chain
+
+        // let's explore some more
+        console.log(Person2.prototype.isPrototypeOf(p3))    // true
+        console.log(Person2.prototype.isPrototypeOf(p4))    // true
+        console.log(Object.prototype.isPrototypeOf(Person2.prototype))    // true
+        console.log(Object.prototype.isPrototypeOf(p3))    // true
+        console.log(Object.prototype.isPrototypeOf(p4))    // true
+        console.log(Object.prototype.isPrototypeOf(Person2))    // this means Person2 is an object, with its __proto__ property set to Object.prototype
+
+        // okay, but where is inheritance?
+        // we will see it soon
+
+    </script>
+
+</body>
+</html>

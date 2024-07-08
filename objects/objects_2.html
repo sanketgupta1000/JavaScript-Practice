@@ -26,9 +26,10 @@
 
         // steps when we call function with new keyword
         // 1. new object is created
-        // 2. this keyword is set to the new object
-        // 3. function is executed
-        // 4. return the object
+        // 2. invisible prototype property(__proto__) of the object is set to the prototype property of the constructor function
+        // 3. this keyword is set to the new object
+        // 4. function is executed
+        // 5. return the object
 
         let student2 = new Student();
         student2.name = "John";
