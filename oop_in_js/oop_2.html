@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // es6 classes
+
+        // we have seen how JS implements OOP using constructor functions and prototypes
+        // classes are nothing but a syntactic sugar over constructor functions and prototypes
+
+        class Book
+        {
+            constructor(title, author, year)
+            {
+                this.title = title;
+                this.author = author;
+                this.year = year;
+            }
+
+            getSummary()
+            {
+                return `${this.title} was written by ${this.author} in ${this.year}`;
+            }
+        }
+
+        let book1 = new Book("Book1", "Author1", 2000);
+        console.log(book1);
+
+        // we see that getSummary is not in the object
+        // but it is the __proto__ property of the object
+        // so, basically, the function is set as a property of the prototype object of the constructor function
+        // hence, no duplication of function for each object when we use classes
+
+        // so this calls the method of the prototype
+        console.log(book1.getSummary());
+
+        class MobilePhone
+        {
+            constructor(company, model, price)
+            {
+                this.company = company;
+                this.model = model;
+                this.price = price;
+            }
+
+            // getter
+            get mobileName()
+            {
+                return `${this.company} ${this.model}`;
+            }
+
+            // setter
+            set mobileName(name)
+            {
+                let parts = name.split(' ');
+                this.company = parts[0];
+                this.model = parts[1];
+            }
+        }
+
+        let phone1 = new MobilePhone("realme", "C3", 8000);
+        console.log(phone1);
+
+        // this calls the getter
+        console.log(phone1.mobileName);
+
+        // this calls the setter
+        phone1.mobileName = "Samsung Galaxy M31";
+
+        console.log(phone1.mobileName)
+
+        // but what is mobileName?
+        console.log(Object.getOwnPropertyDescriptors(phone1));
+        // not here
+
+        // let's try this
+        console.log(Object.getOwnPropertyDescriptors(MobilePhone.prototype))
+        // there it is!
+        // so, get and set define an accessor property on the prototype of the class/constructor function
+
+    </script>
+
+</body>
+</html>
