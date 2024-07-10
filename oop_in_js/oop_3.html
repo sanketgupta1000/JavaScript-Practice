@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // we will discuss about Object.create()
+
+        // can be used to give a specific prototype (ie, specific value of __proto__ property) to an object
+
+        function PropertyPrinter()
+        {}
+
+        PropertyPrinter.prototype.printProperties = function()
+        {
+            console.log(Object.keys(this));
+        }
+
+        // now, i have an object, and i want to use printProperties to print its properties
+        let obj1 = Object.create(PropertyPrinter.prototype,
+            {
+                prop1: {
+                    value: "value1",
+                    writable: true,
+                    configurable: true,
+                    enumerable: true
+                },
+                prop2: {
+                    value: 10,
+                    enumerable: true
+                },
+                prop3: {
+                    value: true,
+                    configurable: true,
+                    enumerable: true
+                }
+            }
+        )
+
+        console.log(obj1)
+        obj1.printProperties()
+
+        // inheritance in JS
+
+        // to achieve inheritance in JS, we have to basically make the __proto__ property of the prototype of a constructor function point to a prototype of another constructor function
+
+        const Person = function(firstName, birthYear)
+        {
+            this.firstName = firstName;
+            this.birthYear = birthYear;
+        }
+        Person.prototype.calcAge = function()
+        {
+            return (new Date().getFullYear() - this.birthYear);
+        }
+
+        const Student = function(firstName, birthYear, course)
+        {
+            // calling Person() with call, since we want that it does changes in the current object
+            // so must pass thirArg through call/apply
+            Person.call(this, firstName, birthYear);
+
+            this.course = course;
+        }
+
+        // still, Student's prototype's __proto__ points to Object.prototype
+        Student.prototype = Object.create(Person.prototype)
+        // note that after this, old Student.prototype is overridden
+        Student.prototype.constructor = Student;
+
+        // only after above is done, we may do changes to the prototype
+        Student.prototype.introduce = function()
+        {
+            console.log(`Student: ${this.firstName}, Birth year: ${this.birthYear}, course: ${this.course}`);
+        }
+
+
+        let s = new Student("Sanket", 2003, "AT")
+
+        s.introduce()
+
+        console.log(s.calcAge())
+
+        console.log(s)
+
+
+
+    </script>
+
+</body>
+</html>
