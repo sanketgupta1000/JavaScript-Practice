@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // now we will try to see how to inheritance without class or constructor function
+
+        // so, basically will be setting up the prototype chain manually
+
+        const PersonProto = 
+        {
+            calcAge()
+            {
+                return (new Date().getFullYear() - this.birthYear);
+            }
+        }
+
+        const StudentProto = Object.create(PersonProto);
+        StudentProto.introduce = function()
+        {
+            console.log(`My name is ${this.firstName}, and i am studying ${this.course}`);
+        }
+
+        const student1 = Object.create(StudentProto);
+        student1.firstName = "John";
+        student1.birthYear = 1990;
+        student1.course = "Computer Science";
+
+        console.log(student1);
+        console.log(student1.calcAge());
+        student1.introduce();
+
+    </script>
+
+</body>
+</html>
