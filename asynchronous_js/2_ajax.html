@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!-- to display book data -->
+    <div class="book">
+
+        <h1 id="bookTitle1"></h1>
+
+        <p id="bookAuthor1"></p>
+
+        <p id="bookDescription1"></p>
+
+    </div>
+    
+    <div class="book">
+
+        <h1 id="bookTitle2"></h1>
+
+        <p id="bookAuthor2"></p>
+
+        <p id="bookDescription2"></p>
+
+    </div>
+    
+    <script>
+
+        // now we know how asynchronous behaviour is achieved in JS
+        // so in general whenever we want to do some asynchronous task, we do that through assigning a callback to the event listener
+        // so if we want to do something after the execution of callback itself, then we can do that by assigning another callback to another event listener
+        // and so on
+        // but we will end up in a situation where we have a lot of nested callbacks, and this is called callback hell
+        // so let's see an example of callback hell
+
+        // we will try to do the following tasks:
+        // 1. fetch a random book
+        // 2. fetch another book with id=id of random book + 1
+
+        const bookTitle1 = document.getElementById("bookTitle1");
+        const bookAuthor1 = document.getElementById("bookAuthor1");
+        const bookDescription1 = document.getElementById("bookDescription1");
+
+        const bookTitle2 = document.getElementById("bookTitle2");
+        const bookAuthor2 = document.getElementById("bookAuthor2");
+        const bookDescription2 = document.getElementById("bookDescription2");
+
+        const randomBookApiUrl = "https://api.freeapi.app/api/v1/public/books/book/random";
+
+        function fetchRandomBook()
+        {
+
+            const xhr = new XMLHttpRequest();
+            // open the request
+            xhr.open("GET", randomBookApiUrl);
+            // send the request
+            xhr.send();
+
+            // attach callback to be executed when the response arrives
+            xhr.addEventListener("load", function()
+            {
+                // get the book data
+                const bookData = JSON.parse(xhr.responseText);
+
+                // display the book data
+                bookTitle1.textContent = bookData.data.volumeInfo.title;
+                bookAuthor1.textContent = bookData.data.volumeInfo.authors[0];
+                bookDescription1.textContent = bookData.data.volumeInfo.description;
+
+                // get the book id
+                const bookId = bookData.data.id;
+
+                // fetch the second book
+                const secondBookApiUrl = `https://api.freeapi.app/api/v1/public/books/${bookId + 1}`;
+
+                const xhr2 = new XMLHttpRequest();
+                // open the request
+                xhr2.open("GET", secondBookApiUrl);
+                // send the request
+                xhr2.send();
+
+                // attach callback to be executed when the response arrives
+                xhr2.addEventListener("load", function()
+                {
+                    // get the book data
+                    const bookData2 = JSON.parse(xhr2.responseText);
+
+                    // display the book data
+                    bookTitle2.textContent = bookData2.data.volumeInfo.title;
+                    bookAuthor2.textContent = bookData2.data.volumeInfo.authors[0];
+                    bookDescription2.textContent = bookData2.data.volumeInfo.description;
+                })
+
+            })
+
+        }
+
+        fetchRandomBook();
+
+        // clearly, the level of nesting is increasing as we are adding more asynchronous tasks
+        // code becomes difficult to read and maintain
+
+    </script>
+
+</body>
+</html>
