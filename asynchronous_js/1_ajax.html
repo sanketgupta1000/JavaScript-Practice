@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- to display book data -->
+    <div class="book">
+
+        <h1 id="bookTitle"></h1>
+
+        <p id="bookAuthor"></p>
+
+        <p id="bookDescription"></p>
+
+    </div>
+    
+    <script>
+
+        // we know that JS is a single threaded synchronous language
+        // but we have alse seen that the Web APIs provided by the browser can, infact, run in a separate thread
+        // and when their work is done, they put the callback in the callback queue, and promise in the microtask queue(we will see what promises are)
+        // and then the event loop checks the call stack and callback queue, and if the call stack is empty, it puts the callback in the call stack.
+
+        // this is how the asynchronous behaviour is achieved in JS
+
+        // let's see an example of this
+        // we will try to make AJAX request using XHR object
+
+        const randomBookApiUrl = "https://api.freeapi.app/api/v1/public/books/book/random";
+
+        const bookTitle = document.getElementById("bookTitle");
+        const bookAuthor = document.getElementById("bookAuthor");
+        const bookDescription = document.getElementById("bookDescription");
+
+        function fetchRandomBook()
+        {
+
+            const xhr = new XMLHttpRequest();
+            // open the request
+            xhr.open("GET", randomBookApiUrl);
+            // send the request
+            xhr.send();
+
+            // attach callback to be executed when the response arrives
+            xhr.addEventListener("load", function()
+            {
+                // get the book data
+                const bookData = JSON.parse(xhr.responseText);
+
+                // display the book data
+                bookTitle.textContent = bookData.data.volumeInfo.title;
+                bookAuthor.textContent = bookData.data.volumeInfo.authors[0];
+                bookDescription.textContent = bookData.data.volumeInfo.description;
+            })
+
+        }
+
+        fetchRandomBook();
+
+        // for(let i = 0; i<10000000000; i++)
+        {
+            // because of this loop, in the execution context GEC(Global Execution Execution), this code will keep executing
+            // so the event loop will not be able to put the callback in the call stack, even after the response is received
+            // and the book data will be displayed only after this loop is executed
+        }
+
+    </script>
+
+</body>
+</html>
