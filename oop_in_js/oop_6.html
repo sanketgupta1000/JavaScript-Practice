@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // now we will see private properties in JS
+
+        class Account
+        {
+
+            // #pin is a private property
+            #pin
+
+            constructor(pin)
+            {
+                this.#pin = pin;
+            }
+
+            showPin()
+            {
+                console.log(this.#pin);
+            }
+        }
+
+        const acc1 = new Account(1111);
+        // acc1.#pin; // this will throw an error
+        acc1.showPin();
+
+    </script>
+
+</body>
+</html>
