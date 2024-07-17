@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="book">
+
+        <h1 id="bookTitle1"></h1>
+
+        <p id="bookAuthor1"></p>
+
+        <p id="bookDescription1"></p>
+
+    </div>
+    
+    <div class="book">
+
+        <h1 id="bookTitle2"></h1>
+
+        <p id="bookAuthor2"></p>
+
+        <p id="bookDescription2"></p>
+
+    </div>
+
+    <script>
+
+        // now we will see how promises can be used to avoid callback hell
+
+        // we will try to do the following tasks:
+        // 1. fetch a random book
+        // 2. fetch another book with id=id of random book + 1
+
+        // this time we will not use XMLHttpRequest, but fetch API, because it is based on promises
+
+        const bookTitle1 = document.getElementById("bookTitle1");
+        const bookAuthor1 = document.getElementById("bookAuthor1");
+        const bookDescription1 = document.getElementById("bookDescription1");
+
+        const bookTitle2 = document.getElementById("bookTitle2");
+        const bookAuthor2 = document.getElementById("bookAuthor2");
+        const bookDescription2 = document.getElementById("bookDescription2");
+
+        const randomBookApiUrl = "https://api.freeapi.app/api/v1/public/books/book/random";
+        
+        fetch(randomBookApiUrl)
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(bookData)
+        {
+            bookTitle1.textContent = bookData.data.volumeInfo.title;
+            bookAuthor1.textContent = bookData.data.volumeInfo.authors[0];
+            bookDescription1.textContent = bookData.data.volumeInfo.description;
+
+            // now fetch another book
+            // get book id
+            const bookId = bookData.data.id;
+
+            const anotherBookApiUrl = `https://api.freeapi.app/api/v1/public/books/${bookId+1}`;
+
+            return fetch(anotherBookApiUrl);
+        })
+        // this then applies to the fetch of another book, returned from the previous then
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(bookData)
+        {
+            bookTitle2.textContent = bookData.data.volumeInfo.title;
+            bookAuthor2.textContent = bookData.data.volumeInfo.authors[0];
+            bookDescription2.textContent = bookData.data.volumeInfo.description;
+        })
+        // catch is called when any of the promises is rejected
+        .catch(function(error)
+        {
+            console.log("Error: "+error);
+        });
+
+
+
+
+    </script>
+    
+</body>
+</html>

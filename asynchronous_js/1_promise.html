@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1 id="msg"></h1>
+
+    <script>
+
+        const message = document.getElementById("msg");
+
+        // promises are a new way of handling asynchronous tasks in JS
+        // a promise is nothing but an object in JS
+        // it is the assurance that some work will be done in the future
+        // and that the result will be stored in the promise object itself when the work is done
+
+        // a promise object has 3 states:
+        // 1. pending: initial state, neither fulfilled nor rejected
+        // 2. fulfilled: meaning that the operation completed successfully
+        // 3. rejected: meaning that the operation failed
+        // states 2 and 3 are collectively known as settled
+
+        // now mostly, we will be comsuming promises, not creating them
+        // but we will see how to create a promise object
+
+        const logPromise = new Promise(function(resolve, reject)
+        {
+            // do some task here which may take time, and so you want to do it asynchronously
+
+            // if the task is successful, then call resolve, with the data you want to pass, will make the promise fulfilled
+            // if the task is unsuccessful, then call reject, with the error you want to pass, will make the promise rejected
+
+            // for now, we will just log a message after some time
+            setTimeout(function()
+            {
+                console.log("logging a message after 2 seconds");
+                resolve("message logged");
+                // reject("error occurred");
+            }, 2000);
+        });
+
+        // let's consume the promise
+        // logPromise.then(
+            
+        //     // success callback
+        //     function(data)
+        //     {
+        //         message.textContent = data;
+        //     },
+
+        //     // error callback
+        //     function(error)
+        //     {
+        //         message.textContent = "Error: "+error;
+        //     }
+        // );
+        // the first callback we pass to then() is called when the promise is fulfilled
+        // the second callback we pass to then() is called when the promise is rejected
+
+        // now we will see more ways of consuming promises
+
+        // 2. then and catch
+        
+        // called when the promise is rejected
+        // logPromise.catch(function(error)
+        // {
+        //     message.textContent = "Error: "+error;
+        // });
+        // called when the promise is fulfilled
+        // logPromise.then(function(data)
+        // {
+        //     message.textContent = data;
+        // });
+
+        // 3. chaining then() and catch()
+
+        // now, when we call then() or catch(), they return a new promise
+        // the promise returned by then() represents the completion of the callback passed to then()
+        // and the promise returned by catch() represents the rejection of any promise in the chain
+
+        logPromise
+        .then(function(data)
+        {
+            message.textContent = data;
+
+            // now if we return a new promise here, then() will return that promise
+            // return new Promise(function(resolve, reject)
+            // {
+            //     setTimeout(function()
+            //     {
+            //         console.log("logging another message after 2 seconds");
+            //         reject("another error occurred");
+            //     }, 2000);
+            // });
+        })
+        .catch(function(error)
+        {
+            message.textContent = "Error: "+error;
+        });
+        
+
+    </script>
+
+</body>
+</html>
