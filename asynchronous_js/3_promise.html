@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // will see Promise.all(), Promise.allSettled(), Promise.race(), and Promise.any()
+
+        // 1. Promise.all()
+        // takes an array of promises and returns a single promise
+        // that promise resolves only when all the promises in the array are resolved, and the value of resolved Promise.all() is an array containing the resolved values of all the promises in the array passed to it
+        // if at least any one of the promises is rejected, the promise returned by Promise.all() is rejected, with the first reason of rejection
+
+        // eg1
+        const promise1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise1 resolved");
+            }, 1000);
+        });
+
+        const promise2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise2 resolved");
+            }, 2000);
+        });
+
+        const promise3 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise3 resolved");
+            }, 3000);
+        });
+
+        Promise.all([promise1, promise2, promise3])
+            .then((values) => {
+                console.log(values);
+            })
+            .catch((reason) => {
+                console.log(reason);
+            });
+
+        // expected output:
+        // ["promise1 resolved", "promise2 resolved", "promise3 resolved"]
+
+        // eg2
+        const promise4 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise4 resolved");
+            }, 1000);
+        });
+
+        const promise5 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise5 rejected");
+            }, 2000);
+        });
+
+        const promise6 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise6 resolved");
+            }, 3000);
+        });
+
+        Promise.all([promise4, promise5, promise6])
+            .then((values) => {
+                console.log(values);
+            })
+            .catch((reason) => {
+                console.log(reason);
+            });
+
+        // expected output:
+        // promise5 rejected
+
+        // eg3
+        const promise7 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise7 resolved");
+            }, 1000);
+        });
+
+        const promise8 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise8 rejected");
+            }, 2000);
+        });
+
+        const promise9 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise9 rejected");
+            }, 3000);
+        });
+
+        Promise.all([promise7, promise8, promise9])
+            .then((values) => {
+                console.log(values);
+            })
+            .catch((reason) => {
+                console.log(reason);
+            });
+        
+            // expected output:
+            // promise8 rejected
+
+        // 2. Promise.allSettled()
+        // takes an array of promises and returns a single promise
+        // that promise resolves only when all the promises in the array are settled, and the value of resolved Promise.allSettled() is an array of objects containing the status of all the promises in the array passed to it
+
+        // eg1
+        const promise10 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise10 resolved");
+            }, 1000);
+        });
+
+        const promise11 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise11 rejected");
+            }, 2000);
+        });
+
+        Promise.allSettled([promise10, promise11])
+            .then((values) => {
+                console.log(values);
+            });
+            // no catch block needed here, as the promise returned by Promise.allSettled() will always be resolved
+
+        // expected output:
+        // [
+        //     {status: "fulfilled", value: "promise10 resolved"},
+        //     {status: "rejected", reason: "promise11 rejected"}
+        // ]
+
+        // 3. Promise.race()
+        // takes an array of promises and returns a single promise
+        // the returned promise settles as soon as the first promise in the array settles, be it resolved or rejected
+        // the value of the returned promise is the value of the first promise that settles
+
+        // eg1
+        const promise12 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise12 resolved");
+            }, 1000);
+        });
+
+        const promise13 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise13 rejected");
+            }, 2000);
+        });
+
+        Promise.race([promise12, promise13])
+            .then((value) => {
+                console.log(value);
+            })
+            .catch((reason) => {
+                console.log(reason);
+            });
+        
+        // expected output:
+        // promise12 resolved
+
+        // eg2
+        const promise14 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise14 rejected");
+            }, 1000);
+        });
+
+        const promise15 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise15 resolved");
+            }, 2000);
+        });
+
+        Promise.race([promise14, promise15])
+            .then((value) => {
+                console.log(value);
+            })
+            .catch((reason) => {
+                console.log(reason);
+            });
+
+        // expected output:
+        // promise14 rejected
+
+        // 4. Promise.any()
+        // takes an array of promises and returns a single promise
+        // that promise resolves as soon as any one of the promises in the array is resolved
+        // the value of the returned promise is the value of the first promise that resolves
+        // if all the promises are rejected, the promise returned by Promise.any() is rejected with an AggregateError object containing all the rejection reasons
+
+        // eg1
+        const promise16 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise16 resolved");
+            }, 1000);
+        });
+
+        const promise17 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise17 rejected");
+            }, 2000);
+        });
+
+        const promise18 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("promise18 resolved");
+            }, 3000);
+        });
+
+        Promise.any([promise16, promise17, promise18])
+            .then((value) => {
+                console.log(value);
+            })
+            .catch((reason) => {
+                console.log(reason);
+            });
+
+        // expected output:
+        // promise16 resolved
+
+        // eg2
+        const promise19 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise19 rejected");
+            }, 1000);
+        });
+
+        const promise20 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise20 rejected");
+            }, 2000);
+        });
+
+        const promise21 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject("promise21 rejected");
+            }, 3000);
+        });
+
+        Promise.any([promise19, promise20, promise21])
+            .then((value) => {
+                console.log(value);
+            })
+            .catch((reason) => {
+                console.log(reason);
+            });
+
+        // expected output:
+        // AggregateError: All promises were rejected
+        
+
+    </script>
+
+</body>
+</html>
