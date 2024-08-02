@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // introduction to async await
+        // async await is a syntactic sugar over promises
+        // async await makes the code look synchronous, but it is still asynchronous
+
+        // by definition, async functions always return a promise
+        // even if the return value is not a promise, it will be wrapped in a promise
+        // when we call the async function by await, it will wait for the promise to resolve
+        // and the resolved value will be returned
+
+        async function getRandomBook()
+        {
+            console.log("fetching random book");
+            const randomBookApiUrl = "https://api.freeapi.app/api/v1/public/books/book/random";
+            // await used
+            // this is like a 'blocking' fetch call
+            const response = await fetch(randomBookApiUrl);
+
+            console.log("response received");
+
+            // so, now the execution won't come here until the promise is resolved
+            // but we can't really block the execution in JS
+            // hence, this async task will he given to Web Worker API to handle asynchronously
+
+            const bookData = await response.json();
+            console.log(bookData);
+        }
+
+        getRandomBook();
+
+        console.log("hi");
+
+        // expected output:
+        // fetching random book
+        // hi
+        // response received
+        // {data: {…}}
+
+    </script>
+
+</body>
+</html>
