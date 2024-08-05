@@ -1,0 +1,8 @@
+In node, we can have modules, to increase modularity, combine code logically, and to increase code reusability.
+
+A module is nothing but a file, which 'exports' something. And to be able to use the exported things, they must be imported in another file.
+
+Types:
+1. Core modules: Inbuilt modules, like file system(fs), http(for create our own server), etc.
+2. Local modules: also called custom modules, created by us.
+3. Third party modules: managed through npm.
